@@ -23,7 +23,7 @@ def parse_recipe(url : str):
             recipe[att] = scraper.__getattribute__(att)()
         except:
             pass
-    
+    assert len(recipe['ingredients'])
     for ingredient in recipe['ingredients']:
         result = parse_ingredient(ingredient)
         name = result.original_string
@@ -59,7 +59,7 @@ def select_or_create(path: str):
     return path
 
 OUTPUTPATH = select_or_create('json')
-
+#https://github.com/hhursev/recipe-scrapers
 class MySpider(CrawlSpider):
     name = 'gspider'
     allowed_domains = ['themodernproper.com']
