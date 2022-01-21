@@ -128,4 +128,4 @@ venv.bak/
 
 # json
 *.json
-/json/*
+*/json/*

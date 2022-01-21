@@ -8,8 +8,10 @@ from scrapy.spiders import CrawlSpider, Rule
 
 from source.functions import select_or_create
 from source.parser import parse_recipe
+import os
 
-OUTPUTPATH = select_or_create('json')
+APP_PATH = os.path.dirname(os.path.abspath(__file__))
+OUTPUTPATH = select_or_create(os.path.join(APP_PATH, 'data', 'json'))
 #https://github.com/hhursev/recipe-scrapers
 class MySpider(CrawlSpider):
     name = 'gspider'
