@@ -23,10 +23,7 @@ def parse_recipe(url : str):
         ingredients[name] = {}
         ingredients[name]['comment'] = result.comment
         ingredients[name]['name'] = result.name
-        if not result.quantity:
-            ingredients[name]['quantity']= 1
-        else:
-            ingredients[name]['quantity']= result.quantity
+        ingredients[name]['quantity'] = result.quantity or 1
         ingredients[name]['unit']= result.unit
     
     recipe['ingredients'] = ingredients
