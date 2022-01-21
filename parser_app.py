@@ -3,7 +3,7 @@ from source.parser import parse_recipe
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 @app.route('/v0/recipe', methods=['GET'])
 def get_recipe():
