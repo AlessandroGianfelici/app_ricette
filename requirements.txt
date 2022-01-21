@@ -1,3 +1,6 @@
 scrapy
 recipe-scrapers
 parse-ingredients
+flask
+colorama
+pandas
