@@ -1,12 +1,12 @@
 import logging
 import os
 from datetime import datetime
-
+from constants import APP_PATH
 import pandas as pd
 
 logger = logging.getLogger("__main__")
 
-DATASET = pd.read_parquet(os.path.join("data", "dataset.parquet")).dropna()
+DATASET = pd.read_parquet(os.path.join(APP_PATH, "data", "dataset.parquet")).dropna()
 
 def drop_constant_columns(dataframe):
     """

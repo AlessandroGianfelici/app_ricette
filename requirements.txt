@@ -5,3 +5,4 @@ flask
 colorama
 pandas
 langdetect
+pyarrow 
