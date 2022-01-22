@@ -8,7 +8,7 @@ First of all, let's install the requirements:
 pip install -r requirements.txt
 ```
 
-## Scraping the wed 
+## Scraping the web
 Second step, we can collect the recipe data by running the spider:
 
 ```python
