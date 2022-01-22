@@ -1,5 +1,26 @@
+import json
 import os
+        
+def write_json(obj: dict, filename : str) -> None:
+    """
+    Write a python dictionary into a json file.
+    :param obj: the dictionary
+    :type path: dict
+    :param filename: the full path of the json file to be written
+    :type path: str
+    """
+    with open(filename, 'w') as outfile:
+        json.dump(obj, outfile)
 
+def read_json(filename : str) -> dict:
+    """
+    Read a json file into a python dictionary.
+    :param filename: the full path of the json file
+    :type path: str
+    """
+    with open(filename, 'r') as outfile:
+        return json.load(outfile)
+    
 def file_folder_exists(path: str):
     """
     Return True if a file or folder exists.

@@ -4,3 +4,4 @@ parse-ingredients
 flask
 colorama
 pandas
+langdetect
