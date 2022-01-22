@@ -1,16 +1,35 @@
-# Recipe Crawler
+# Recipe APP
 App to suggest a recipe using a given set of ingredients.
 
-## Usage 
-
+## Requirements 
 First of all, let's install the requirements:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-and then, we can run the spider with the following command:
+## Scraping the wed 
+Second step, we can collect the recipe data by running the spider:
 
 ```python
 scrapy runspider myspider.py
 ```
+
+## Building the dataset
+Now we can build the dataset::
+
+```python
+python dump_dataset.py
+```
+
+## Recommender
+Last step, we can ask our recommender to provide us a list of recipe given a list of ingredients:
+
+```python
+from source.recommender import recommend_recipes
+
+list_of_ingredients = ["eggs", "bacon", "black pepper"]
+recommend_recipes(list_of_ingredients, max_results=5)
+```
+
+And we will obtain a dataframe containing the names and the urls of the best 'max_results' recipes given our ingredients!
