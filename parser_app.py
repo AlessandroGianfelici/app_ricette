@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 app.config["DEBUG"] = True
 
-@app.route('/v0/recipe', methods=['GET'])
+@app.route('/v1/parse_recipe', methods=['GET'])
 def get_recipe():
     if "url" not in request.args:
         return 'url parameter is required', 400

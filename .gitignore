@@ -126,11 +126,10 @@ venv.bak/
 # Pyre type checker
 .pyre/
 
-# json
+# data files
 *.json
 */json/*
-
-# csv
+*.parquet
 *.csv
 
 # notebook

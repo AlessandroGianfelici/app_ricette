@@ -6,7 +6,7 @@ import pandas as pd
 
 logger = logging.getLogger("__main__")
 
-DATASET = pd.read_csv(os.path.join("data", "dataset.csv")).dropna()
+DATASET = pd.read_parquet(os.path.join("data", "dataset.parquet")).dropna()
 
 def drop_constant_columns(dataframe):
     """

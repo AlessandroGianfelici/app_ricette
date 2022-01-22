@@ -40,4 +40,4 @@ if __name__ == '__main__':
     my_df = pd.concat(pool.map(extract_ingredients, os.listdir(JSON_PATH)))
     pool.close()
     logger.info(f"Parsed {len(my_df['name'].unique())} recipes in {datetime.now() - start}")
-    my_df.dropna().to_csv(os.path.join(APP_PATH, "data", "dataset.csv"), index=0)
+    my_df.dropna().to_parquet(os.path.join(APP_PATH, "data", "dataset.parquet"))
