@@ -14,10 +14,14 @@ def suggest_recipe():
     if "ingredients" not in request.args:
         return 'url parameter is required', 400
     else:
+        if "limit" not in request.args:
+            max_results = 5
+        else:
+            max_results = request.args.get('limit', type=int)
         ingredients = request.args.get('ingredients', type=str)
         ingredient_list = list(map(preprocess_query, 
                                    ingredients.split(",")))
-        suggestions = recommend_recipes(ingredient_list, max_results=5)
+        suggestions = recommend_recipes(ingredient_list, max_results=max_results)
         return jsonify({"status" : "ok",
                         "ingredients" : ingredient_list,
                         "recipe_name": list(map(lambda x: x.replace("_", " "), suggestions['name'].values)),
