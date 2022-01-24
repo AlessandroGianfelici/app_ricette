@@ -130,7 +130,6 @@ venv.bak/
 *.json
 */json/*
 *.parquet
-*.csv
 
 # notebook
 *.ipynb
