@@ -83,7 +83,6 @@ def parse_recipe(url : str):
 
     for ingredient in recipe['ingredients']:
         name = ingredient
-        print(name)
         if is_giallo:
             ingredient = treat_giallo_zafferano(ingredient)
         result = parse_ingredient(ingredient.lower().replace("’", "'"))
