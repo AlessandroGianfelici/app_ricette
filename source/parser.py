@@ -21,6 +21,7 @@ units['tazzina'] = ['tazzina', 'tazzine']
 units['manciata'] = ['manciata', 'manciate']
 units['bustina'] = ['bustina', 'bustine']
 units['busta'] = ['busta', 'buste']
+units['mazzetto'] = ['mazzetto', 'mazzetti']
 
 units['kg'].append("chilogrammo")
 units['kg'].append("chilogrammi")
