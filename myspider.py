@@ -27,7 +27,7 @@ class MySpider(CrawlSpider):
         """
         if response.url not in PROCESSED_URL:
             recipe_dict = parse_recipe(response.url)
-            filename = recipe_dict['title'].replace(" ", "_")
+            filename = recipe_dict['title'].replace(" ", "_").replace(".", "_")
             write_json(recipe_dict, 
                        os.path.join(select_or_create(JSON_PATH), 
                                     filename))
