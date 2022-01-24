@@ -9,8 +9,10 @@ from source.functions import select_or_create, write_json
 from source.parser import parse_recipe
 from source.recommender import DATASET
 
-PROCESSED_URL = DATASET['url'].values
-
+try:
+    PROCESSED_URL = DATASET['url'].values
+except:
+    PROCESSED_URL = []
 class MySpider(CrawlSpider):
     name = 'gspider'
     allowed_domains = DOMAINS

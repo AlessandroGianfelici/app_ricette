@@ -4,13 +4,13 @@ from recipe_scrapers import scrape_me
 import re
 
 # aggiungo le versioni italiane degli ingredienti
-units['cucchiaio'] = ['cucchiaio', 'cucchiai', 'cucchiaio da tè', "cucchiai da tè", 'cucchiaio da tavola', 'cucchiai da tavola']
-units['cucchiaino'] = ['cucchiaino', 'cucchiaini']
+units['cucchiaio'] = ['cucchiaio', 'cucchiai', 'cucchiaio da tè', "cucchiai da tè", 'cucchiaio da tavola', 'cucchiai da tavola', 'cucchiaiate', 'cucchiaiata']
+units['cucchiaino'] = ['cucchiaino', 'cucchiaini', 'c.no']
 units['pizzico'] = ['pizzico', 'pizzichi']
 units['spicchio'] = ['spicchio', 'spicchi', 'of spicchio']
 units['rametto'] = ['rametto', 'rametti']
-units['q.b.'] = ['q.b.', 'q.b', 'qb', 'qualche', 'pizzico']
-units['ciuffo'] = ['ciuffo', 'ciuffi', 'grande ciuffo', 'grandi ciuffi']
+units['q.b.'] = ['q.b.', 'q.b', 'qb', 'qualche', 'pizzico', 'presa']
+units['ciuffo'] = ['ciuffo', 'ciuffi', 'grande ciuffo', 'grandi ciuffi', 'ciuffetto', 'ciuffetti']
 units['foglia'] = ['foglie', 'foglia', 'foglioline', 'fogliolina']
 units["bicchiere"] = ["bicchieri", "bicchiere"]
 units['filetto'] = ['filetti', 'filetto']
@@ -23,18 +23,24 @@ units['bustina'] = ['bustina', 'bustine']
 units['busta'] = ['busta', 'buste']
 units['mazzetto'] = ['mazzetto', 'mazzetti']
 units['vasetto'] = ['vasetto', 'vasetti']
-units['cl'] = ['cl', 'centilitro', 'centilitri']
+units['cl'] = ['cl', 'c.', 'centilitro', 'centilitri']
 units['cm'] = ['cm']
-units['fetta'] = ['fetta', 'fette']
+units['spruzzo'] = ['spruzzo']
+units['fetta'] = ['fetta', 'fette', 'fettina', 'fettine']
 units['pezzo'] = ['pezzo', 'pezzi', 'pezzetti', 'pezzetto']
+units['dl'] = ['decilitro', 'decilitri', 'dl']
+units['hg'] = ['etto', 'etti', 'ettogrammo', 'ettogrammi', 'hg']
 
 units['kg'].append("chilogrammo")
 units['kg'].append("chilogrammi")
 units['g'].append("gr")
+units['g'].append("gr.")
+units['g'].append("g.")
 units['g'].append("grammo")
 units['g'].append("grammi")
 units['l'].append("litro")
 units['l'].append("litri")
+units['l'].append("lt.") 
 units['ml'].append("millilitri")
 units['ml'].append("millilitro")
 units['ml'].append("ml.")
@@ -70,12 +76,19 @@ def ingredient_to_dict(parsed):
                                 .replace("circa", "")
                                 .replace("(", "")
                                 .replace(")", "")).strip()\
+                                    .removeprefix("abbondante ")\
                                     .removeprefix("di ")\
                                     .removeprefix("da tavola")\
                                     .removeprefix("da tè")\
                                     .removeprefix("qb")\
                                     .removesuffix("qb")\
                                     .removeprefix("e mezzo di ")\
+                                    .replace("piccole", "")\
+                                    .replace("piccola", "")\
+                                    .replace("piccolo", "")\
+                                    .replace("piccoli", "")\
+                                    .replace("grande", "")\
+                                    .replace("grandi", "")\
                                     .strip()
 
     recipe['quantity'] = parsed.quantity or 1
@@ -100,20 +113,37 @@ def parse_recipe(url : str):
     is_giallo = (recipe['host'] in ['ricette.giallozafferano.it',
                                     'cookaround.com',
                                     'alimentipedia.it',
+                                    'cottoecrudo.it',
+                                    'giappogourmet.com',
                                     'cookist.it',
+                                    'burrofuso.com',
+                                    'manufood.it',
+                                    'oggi.it',
+                                    'ricette.primosu.it',
+                                    'piattifacili.com',
+                                    'davidezambelli.com',
+                                    'passioneperlatavola.it',
+                                    'mindcucinaegusto.com',
                                     'cinaintavola.com',
                                     'winedharma.com'])
                                     
     for ingredient in recipe['ingredients']:
         name = ingredient
-        ingredient = ingredient.replace("q. b.", "q.b. ")   
+        ingredient = ingredient.replace("q. b.", "q.b. ").replace('quanto basta' ,"q.b. ")\
+                                            .removeprefix("un ")\
+                                            .removeprefix("uno ")\
+                                            .removeprefix("una ")
         if is_giallo:
             ingredient = treat_giallo_zafferano(ingredient)
         result = parse_ingredient(ingredient.lower()\
                                             .replace("’", "'")\
                                             .replace(".00", "")\
                                             .replace("d'", 'di ')\
-                                            .replace(" di cucchiaino ", ' cucchiaino '))
+                                            .replace(" di cucchiaino ", ' cucchiaino ')\
+                                            .replace("farina tipo ", "farina ")\
+                                            .replace("farina di tipo ", "farina ")\
+                                            .replace("farina 0", "farina_0")\
+                                            .replace("un po' di", "q.b."))
         ingredients[name] = ingredient_to_dict(result)
     recipe['ingredients'] = ingredients
     return recipe
