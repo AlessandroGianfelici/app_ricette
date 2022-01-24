@@ -27,6 +27,7 @@ units['kg'].append("chilogrammi")
 units['g'].append("gr")
 units['g'].append("grammo")
 units['g'].append("grammi")
+units['l'].append("litro")
 units['l'].append("litri")
 units['ml'].append("millilitri")
 
@@ -85,9 +86,10 @@ def parse_recipe(url : str):
 
     for ingredient in recipe['ingredients']:
         name = ingredient
+        ingredient = ingredient.replace("q. b.", "q.b. ")
         if is_giallo:
             ingredient = treat_giallo_zafferano(ingredient)
-        result = parse_ingredient(ingredient.lower().replace("’", "'"))
+        result = parse_ingredient(ingredient.lower().replace("’", "'").replace(".00", ""))
         ingredients[name] = ingredient_to_dict(result)
     recipe['ingredients'] = ingredients
     return recipe
