@@ -97,12 +97,13 @@ def parse_recipe(url : str):
         except:
             pass
     assert len(recipe['ingredients'])
-    is_giallo = ((recipe['host'] == 'ricette.giallozafferano.it') or
-                 (recipe['host'] == 'cookaround.com') or
-                 (recipe['host'] == 'alimentipedia.it') or 
-                 (recipe['host'] == 'cookist.it') or 
-                 (recipe['host'] == 'cinaintavola.com'))
-
+    is_giallo = (recipe['host'] in ['ricette.giallozafferano.it',
+                                    'cookaround.com',
+                                    'alimentipedia.it',
+                                    'cookist.it',
+                                    'cinaintavola.com',
+                                    'winedharma.com'])
+                                    
     for ingredient in recipe['ingredients']:
         name = ingredient
         ingredient = ingredient.replace("q. b.", "q.b. ")   
