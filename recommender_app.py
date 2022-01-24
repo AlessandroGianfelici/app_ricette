@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from flask import abort, redirect, url_for
+from flask import redirect, url_for
 
 from source.recommender import recommend_recipes
 import re
@@ -24,10 +24,7 @@ def suggest_recipe():
     if "ingredients" not in request.args:
         return 'ingredients parameter is required', 400
     else:
-        if "limit" not in request.args:
-            max_results = 5
-        else:
-            max_results = request.args.get('limit', type=int)
+        max_results = request.args.get('limit', type=int, default=5)
         ingredients = request.args.get('ingredients', type=str)
         ingredient_list = list(map(preprocess_query, 
                                    ingredients.split(",")))
