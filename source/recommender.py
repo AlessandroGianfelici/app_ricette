@@ -27,12 +27,8 @@ def recommend_recipes(ingredient_list, max_results=25):
                .reset_index())
 
     ingredient_set = set(ingredient_list).intersection(set(result.columns))
-    observations = result[ingredient_set].sum(axis=1)
-    everyone = result[ingredient_set].min(axis=1).astype(bool)
-    result['count'] = observations
-    result['score'] = observations/(result['index'] - observations)
-    return pd.concat([result.loc[everyone].sort_values(by='score', ascending=False),
-                      result.loc[~everyone].sort_values(by=['count', 'score'], ascending=False)])\
-             .reset_index(drop=True)[['name', 'url']].head(max_results)
+    result['count'] = result[ingredient_set].sum(axis=1)
+    return result.sort_values(by=['count', 'index'], ascending=[False, True])\
+             .reset_index(drop=True).head(max_results)[['name', 'url']]
 
 

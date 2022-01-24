@@ -13,7 +13,7 @@ def preprocess_query(query : str):
     Utility function to remove invalid
     characters from the query.
     """
-    return re.sub(r'[^a-zA-Z]', ' ', query).strip().replace("_", " ")
+    return re.sub(r'[^a-zA-Z]', ' ', query).strip().replace("_", " ")[:-1]
 
 @app.route('/')
 def index():
