@@ -9,7 +9,7 @@ units['cucchiaino'] = ['cucchiaino', 'cucchiaini']
 units['pizzico'] = ['pizzico', 'pizzichi']
 units['spicchio'] = ['spicchio', 'spicchi', 'of spicchio']
 units['rametto'] = ['rametto', 'rametti']
-units['q.b.'] = ['q.b.', 'q.b', 'qb']
+units['q.b.'] = ['q.b.', 'q.b', 'qb', 'qualche', 'pizzico']
 units['ciuffo'] = ['ciuffo', 'ciuffi', 'grande ciuffo', 'grandi ciuffi']
 units['foglia'] = ['foglie', 'foglia', 'foglioline', 'fogliolina']
 units["bicchiere"] = ["bicchieri", "bicchiere"]
@@ -22,6 +22,11 @@ units['manciata'] = ['manciata', 'manciate']
 units['bustina'] = ['bustina', 'bustine']
 units['busta'] = ['busta', 'buste']
 units['mazzetto'] = ['mazzetto', 'mazzetti']
+units['vasetto'] = ['vasetto', 'vasetti']
+units['cl'] = ['cl', 'centilitro', 'centilitri']
+units['cm'] = ['cm']
+units['fetta'] = ['fetta', 'fette']
+units['pezzo'] = ['pezzo', 'pezzi', 'pezzetti', 'pezzetto']
 
 units['kg'].append("chilogrammo")
 units['kg'].append("chilogrammi")
@@ -31,14 +36,22 @@ units['g'].append("grammi")
 units['l'].append("litro")
 units['l'].append("litri")
 units['ml'].append("millilitri")
+units['ml'].append("millilitro")
+units['ml'].append("ml.")
 
 def treat_giallo_zafferano(ingr):
     try:
-        find_dig = map(lambda x : x == ':' or (x.isdigit() and (x!='0')), ingr)
+        find_dig = map(lambda x : x in (':', ',') or (x.isdigit() and (x!='0')), ingr)
         indice = list(find_dig).index(True)
         assert indice
-        result = ingr[indice:].replace(",", ".") + " " + ingr[:indice]
-        return result.removeprefix(":").strip().replace(".00", "")
+        pref = ingr[indice:].replace(",", ".")\
+                            .removeprefix(":").strip()\
+                            .replace(".00", "")\
+                            .replace("un ", "1")\
+                            .replace("uno ", "1")\
+                            .replace("una ", "1")
+        result = pref + " " + ingr[:indice]
+        return result
     except:
         return ingr.replace(",", ".")
 
@@ -60,6 +73,9 @@ def ingredient_to_dict(parsed):
                                     .removeprefix("di ")\
                                     .removeprefix("da tavola")\
                                     .removeprefix("da tè")\
+                                    .removeprefix("qb")\
+                                    .removesuffix("qb")\
+                                    .removeprefix("e mezzo di ")\
                                     .strip()
 
     recipe['quantity'] = parsed.quantity or 1
@@ -83,14 +99,20 @@ def parse_recipe(url : str):
     assert len(recipe['ingredients'])
     is_giallo = ((recipe['host'] == 'ricette.giallozafferano.it') or
                  (recipe['host'] == 'cookaround.com') or
-                 (recipe['host'] == 'alimentipedia.it'))
+                 (recipe['host'] == 'alimentipedia.it') or 
+                 (recipe['host'] == 'cookist.it') or 
+                 (recipe['host'] == 'cinaintavola.com'))
 
     for ingredient in recipe['ingredients']:
         name = ingredient
-        ingredient = ingredient.replace("q. b.", "q.b. ")
+        ingredient = ingredient.replace("q. b.", "q.b. ")   
         if is_giallo:
             ingredient = treat_giallo_zafferano(ingredient)
-        result = parse_ingredient(ingredient.lower().replace("’", "'").replace(".00", ""))
+        result = parse_ingredient(ingredient.lower()\
+                                            .replace("’", "'")\
+                                            .replace(".00", "")\
+                                            .replace("d'", 'di ')\
+                                            .replace(" di cucchiaino ", ' cucchiaino '))
         ingredients[name] = ingredient_to_dict(result)
     recipe['ingredients'] = ingredients
     return recipe
