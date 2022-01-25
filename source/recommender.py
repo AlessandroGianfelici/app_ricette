@@ -28,6 +28,7 @@ def recommend_recipes(ingredient_list, max_results=25):
 
     ingredient_set = set(ingredient_list).intersection(set(result.columns))
     result['count'] = result[ingredient_set].sum(axis=1)
+    result = result.loc[result['count']>0]
     return result.sort_values(by=['count', 'index'], ascending=[False, True])\
              .reset_index(drop=True).head(max_results)[['name', 'url']]
 
