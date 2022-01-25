@@ -13,6 +13,13 @@ try:
     PROCESSED_URL = DATASET['url'].values
 except:
     PROCESSED_URL = []
+
+def process_page(url : str):
+    recipe_dict = parse_recipe(url)
+    filename = recipe_dict['title'].replace(" ", "_").replace(".", "_")
+    write_json(recipe_dict, 
+               os.path.join(select_or_create(JSON_PATH), 
+                            filename))
 class MySpider(CrawlSpider):
     name = 'gspider'
     allowed_domains = DOMAINS
@@ -25,10 +32,6 @@ class MySpider(CrawlSpider):
         This method look at the link and, if it's not already processed,
         it parse the recipe and dump it into a json file.
         """
-        if response.url not in PROCESSED_URL:
-            recipe_dict = parse_recipe(response.url)
-            filename = recipe_dict['title'].replace(" ", "_").replace(".", "_")
-            write_json(recipe_dict, 
-                       os.path.join(select_or_create(JSON_PATH), 
-                                    filename))
+        if (url := response.url) not in PROCESSED_URL:
+            process_page(url)
             self.log('crawling'.format(response.url))

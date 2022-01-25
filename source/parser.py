@@ -17,6 +17,7 @@ units['filetto'] = ['filetti', 'filetto']
 units['stecca'] = ['stecca', 'stecche']
 units['mestolo'] = ['mestolo', 'mestoli']
 units['tazza'] = ['tazza', 'tazze']
+units['striscia'] = ['striscia', 'strisce']
 units['tazzina'] = ['tazzina', 'tazzine']
 units['manciata'] = ['manciata', 'manciate']
 units['bustina'] = ['bustina', 'bustine']
@@ -130,7 +131,8 @@ def parse_recipe(url : str):
                                     
     for ingredient in recipe['ingredients']:
         name = ingredient
-        ingredient = ingredient.replace("q. b.", "q.b. ").replace('quanto basta' ,"q.b. ")\
+        ingredient = ingredient.replace("q. b.", "q.b. ")\
+                               .replace('quanto basta' ,"q.b. ")\
                                             .removeprefix("un ")\
                                             .removeprefix("uno ")\
                                             .removeprefix("una ")
@@ -144,6 +146,7 @@ def parse_recipe(url : str):
                                             .replace("farina tipo ", "farina ")\
                                             .replace("farina di tipo ", "farina ")\
                                             .replace("farina 0", "farina_0")\
+                                            .replace('a piacere' ,"q.b. ")\
                                             .replace("un po' di", "q.b."))
         ingredients[name] = ingredient_to_dict(result)
     recipe['ingredients'] = ingredients
