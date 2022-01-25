@@ -13,7 +13,15 @@ def preprocess_query(query : str):
     Utility function to remove invalid
     characters from the query.
     """
-    return re.sub(r'[^a-zA-Z]', ' ', query).strip().replace("_", " ")[:-1]
+    preproc = re.sub(r'[^a-zA-Z]', ' ', query).strip().replace("_", " ")
+    if (len(preproc) < 3):
+        return preproc
+    elif preproc[:-1] == 'peperon':
+        return preproc
+    else:
+        #stemming artigianale
+        return preproc[:-1]
+
 
 @app.route('/')
 def index():
@@ -25,7 +33,9 @@ def suggest_recipe():
         return 'ingredients parameter is required', 400
     else:
         max_results = request.args.get('limit', type=int, default=5)
-        ingredients = request.args.get('ingredients', type=str)
+        ingredients = request.args.get('ingredients', type=str).lower()\
+                                  .replace("peperone", 'peperoni')\
+                                  .replace("peperoni", 'peperone, peperoni')
         ingredient_list = list(map(preprocess_query, 
                                    ingredients.split(",")))
         suggestions = recommend_recipes(ingredient_list, max_results=max_results)
