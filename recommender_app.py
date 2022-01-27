@@ -16,7 +16,7 @@ def preprocess_query(query : str):
     preproc = re.sub(r'[^a-zA-Z]', ' ', query).strip().replace("_", " ")
     if (len(preproc) < 3):
         return preproc
-    elif preproc[:-1] == 'peperon':
+    elif preproc[:-1] == 'peperon' or preproc[:-1] == 'zucc':
         return preproc
     else:
         #stemming artigianale
