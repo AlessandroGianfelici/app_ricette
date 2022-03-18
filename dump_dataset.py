@@ -6,7 +6,6 @@ from datetime import datetime
 from multiprocessing.dummy import Pool
 
 import pandas as pd
-from langdetect import detect
 
 from source.constants import JSON_PATH, APP_PATH
 from source.functions import read_json
@@ -15,7 +14,6 @@ from source.functions import read_json
 def extract_ingredients(json_file):
     try:
         recipe_dict = read_json(os.path.join(JSON_PATH, json_file))
-        #assert detect(recipe_dict['instructions']) == 'en', 'Only english language is supported now!'
         recipe_ingredients = list(map(lambda x : recipe_dict['ingredients'][x]['name'].lower(), 
                                       recipe_dict['ingredients'].keys()))
         df_result = pd.DataFrame()

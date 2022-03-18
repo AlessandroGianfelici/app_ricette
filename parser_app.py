@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from source.parser import parse_recipe
+from recipes.parser import parse_recipe
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False

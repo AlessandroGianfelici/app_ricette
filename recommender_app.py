@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask import redirect, url_for
 
-from source.recommender import recommend_recipes
+from recipes.recommender import recommend_recipes
 import re
 
 app = Flask(__name__)

@@ -4,13 +4,13 @@ import os
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from source.constants import DOMAINS, JSON_PATH, URLS
-from source.functions import select_or_create, write_json
-from source.parser import parse_recipe
+from recipes.constants import DOMAINS, JSON_PATH, URLS
+from recipes.functions import select_or_create, write_json
+from recipes.parser import parse_recipe
 
 
 try:
-    from source.recommender import DATASET
+    from recipes.recommender import DATASET
     PROCESSED_URL = DATASET['url'].values
 except:
     PROCESSED_URL = []
