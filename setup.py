@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='resipes',
+setup(name='recipes',
       version='0.1.0',
       description='Utility for recipe data',
       url='https://github.com/AlessandroGianfelici/app_ricette',
