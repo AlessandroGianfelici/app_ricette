@@ -22,11 +22,21 @@ Now we can build the dataset::
 python dump_dataset.py
 ```
 
+## Parser
+If you want just use the parser:
+
+```python
+from recipes.parser import parse_recipe
+
+url = <some web address with a recipe inside>
+parse_recipe(url)
+```
+
 ## Recommender
 Last step, we can ask our recommender to provide us a list of recipe given a list of ingredients:
 
 ```python
-from source.recommender import recommend_recipes
+from recipes.recommender import recommend_recipes
 
 list_of_ingredients = ["eggs", "bacon", "black pepper"]
 recommend_recipes(list_of_ingredients, max_results=5)
