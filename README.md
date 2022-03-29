@@ -23,7 +23,7 @@ python dump_dataset.py
 ```
 
 ## Parser
-If you want just use the parser:
+If you want just to use the parser:
 
 ```python
 from recipes.parser import parse_recipe
